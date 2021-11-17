@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+    <script>
+        function showNames(text) {
+            var toShow = document.getElementById("names")
+            toShow.innerText = ""
+            lines = text.split("\n")
+            for (let i = 0; i < 10; i++) {
+                random = lines[Math.floor((Math.random() * lines.length))]
+                toShow.innerText += random
+                toShow.innerText += "\n"
+            }
+        }
+
+        function readFile() {
+            selection = $("#langselect option:selected").text();
+            filepath = "generated/" + selection + ".txt"
+            fetch(filepath)
+                .then(response => response.text())
+                .then(text => showNames(text))
+        }
+
+    </script>
+</head>
+
+<body>
+    <form id="langselect">
+        <label for="lang">Language</label>
+        <select name="languages" id="lang">
+            <option value="French">French</option>
+            <option value="Greek">Greek</option>
+            <option value="Japanese">Japanese</option>
+            <option value="English-Var2">English-Var2</option>
+            <option value="German">German</option>
+            <option value="Russian">Russian</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Chinese">Chinese</option>
+            <option value="Arabic-Chinese">Arabic-Chinese</option>
+            <option value="German-Japanese">German-Japanese</option>
+            <option value="Polish-Czech">Polish-Czech</option>
+            <option value="Greek-Japanese">Greek-Japanese</option>
+
+
+        </select>
+    </form>
+
+    <button type="button" id="btnGetTxt" onclick="readFile()">Get Names</button>
+    <p id="names"></p>
+</body>
+
+</html>
