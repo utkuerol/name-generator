@@ -16,7 +16,7 @@
             lines = text.split("\n")
             for (let i = 0; i < 10; i++) {
                 random = lines[Math.floor((Math.random() * lines.length))]
-                random = random.substring(1, yourString.length - 2);
+                random = random.substring(1, random.length - 2);
                 toShow.innerText += random
                 toShow.innerText += "\n"
             }
