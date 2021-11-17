@@ -2,7 +2,12 @@
 <html>
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </script>
     <script>
         function showNames(text) {
@@ -28,28 +33,39 @@
 </head>
 
 <body>
-    <form id="langselect">
-        <label for="lang">Language</label>
-        <select name="languages" id="lang">
-            <option value="French">French</option>
-            <option value="Greek">Greek</option>
-            <option value="Japanese">Japanese</option>
-            <option value="English-Var2">English-Var2</option>
-            <option value="German">German</option>
-            <option value="Russian">Russian</option>
-            <option value="Spanish">Spanish</option>
-            <option value="Chinese">Chinese</option>
-            <option value="Arabic-Chinese">Arabic-Chinese</option>
-            <option value="German-Japanese">German-Japanese</option>
-            <option value="Polish-Czech">Polish-Czech</option>
-            <option value="Greek-Japanese">Greek-Japanese</option>
+    <div class="jumbotron jumbotron-fluid mb-0">
+        <div class="container">
+            <h1 class="display-4">Name Generator</h1>
+            <p class="lead">Built with Recurrent Neural Networks (LSTM) </p>
+            <hr class="my-4">
+            <p>Select a language from the dropdown menu and press "Get Names" to generate 10 random names</p>
+            <form id="langselect">
+                <label for="lang">Language: </label>
+                <select name="languages" id="lang">
+                    <option value="French">French</option>
+                    <option value="Greek">Greek</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="English-Var2">English-Var2</option>
+                    <option value="German">German</option>
+                    <option value="Russian">Russian</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Arabic-Chinese">Arabic-Chinese</option>
+                    <option value="German-Japanese">German-Japanese</option>
+                    <option value="Polish-Czech">Polish-Czech</option>
+                    <option value="Greek-Japanese">Greek-Japanese</option>
+                </select>
+            </form>
+            <button type="button" id="btnGetTxt" onclick="readFile()" class="btn btn-dark">Get Names</button>
+        </div>
+    </div>
 
-
-        </select>
-    </form>
-
-    <button type="button" id="btnGetTxt" onclick="readFile()">Get Names</button>
-    <p id="names"></p>
+    <div class="container" style="margin-top: 10px;">
+        <div class="card-header" style="width: 18rem;">
+            <div class="card-body" id="names">
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
