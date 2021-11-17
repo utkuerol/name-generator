@@ -23,7 +23,7 @@
         }
 
         function readFile() {
-            selection = $("#langselect option:selected").text();
+            selection = $("#langselect option:selected").val();
             filepath = "generated/" + selection + ".txt"
             fetch(filepath)
                 .then(response => response.text())
