@@ -9,7 +9,7 @@ from pprint import pprint
 model = torch.load("generator.pt")
 model.eval()
 
-dataset = NamesDataset("../data/names/")
+dataset = NamesDataset("data/names/")
 max_length = 20
 
 
