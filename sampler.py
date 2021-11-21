@@ -1,10 +1,9 @@
 import torch
 from data import NamesDataset
-from torch.utils.data.dataloader import DataLoader
-from torch.utils.data import SubsetRandomSampler
 import sys
 import random
 from pprint import pprint
+import pycountry
 
 model = torch.load("generator.pt")
 model.eval()
@@ -25,21 +24,17 @@ def add_eos_to_target(target):
     return res
 
 
-def sample(lang, lang2, var=1):
+def sample(lang, gender, var=1):
     with torch.no_grad():
         input = dataset.name_to_tensor("")
         input = add_sos_to_input(input)
         hidden = model.initHidden()
-
+        lang_tensor = dataset.lang_to_tensor(lang)
+        gender = dataset.gender_to_tensor(gender)
         output_name = ""
 
         for i in range(max_length):
-            lang_select = random.randint(0, 1)
-            if lang_select == 0:
-                lang_tensor = dataset.lang_to_tensor(lang)
-            else:
-                lang_tensor = dataset.lang_to_tensor(lang2)
-            output, hidden = model(input[0], lang_tensor[0], hidden)
+            output, hidden = model(input[0], lang_tensor[0], gender[0], hidden)
             if i == 0:
                 topv, topi = output.topk(30)
                 topi = topi[0][random.randint(0, 20)]
@@ -47,7 +42,7 @@ def sample(lang, lang2, var=1):
                 topv, topi = output.topk(10)
                 topi = topi[0][random.randint(0, var)]
 
-            if topi == len(dataset.all_letters) - 1:
+            if topi == dataset.n_letters - 1:
                 break
             else:
                 letter = dataset.all_letters[topi]
@@ -58,15 +53,34 @@ def sample(lang, lang2, var=1):
 
 
 def main():
-    names = set()
-    while len(names) < 1000:
-        print(len(names))
-        names.add(sample(sys.argv[1], sys.argv[2], int(sys.argv[3])) +
-                  " " + sample(sys.argv[1], sys.argv[2], int(sys.argv[3])))
+    # lang = sys.argv[1]
+    # gender = sys.argv[2]
+    # var = int(sys.argv[3])
 
-    filename = sys.argv[1] + "-" + sys.argv[2] + ".txt"
-    with open(filename, 'wt') as out:
-        pprint(names, stream=out)
+    for o in dataset.languages:
+        names_m = set()
+        while len(names_m) < 3000:
+            first = sample(o, "M", 1)
+            last = ""
+            if len(first.split(" ")) < 2:
+                last = sample(o, "M", 1)
+            names_m.add(first.title() + " " + last.title())
+
+        filename = "generated/new/" + o + "-M.txt"
+        with open(filename, 'wt') as out:
+            print(*names_m, sep="\n", file=out)
+
+        names_f = set()
+        while len(names_f) < 3000:
+            first = sample(o, "F", 1)
+            last = ""
+            if len(first.split(" ")) < 2:
+                last = sample(o, "F", 1)
+            names_f.add(first.title() + " " + last.title())
+
+        filename = "generated/new/" + o + "-F.txt"
+        with open(filename, 'wt') as out:
+            print(*names_f, sep="\n", file=out)
 
 
 if __name__ == "__main__":

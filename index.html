@@ -16,15 +16,16 @@
             lines = text.split("\n")
             for (let i = 0; i < 10; i++) {
                 random = lines[Math.floor((Math.random() * lines.length))]
-                random = random.substring(2, random.length - 2);
                 toShow.innerText += random
                 toShow.innerText += "\n"
             }
         }
 
         function readFile() {
-            selection = $("#langselect option:selected").val();
-            filepath = "generated/" + selection + ".txt"
+            lang = $("#lang option:selected").val();
+            gender = $("#gender option:selected").val();
+            filepath = "generated/new/" + lang + "-" + gender + ".txt"
+            console.log(filepath)
             fetch(filepath)
                 .then(response => response.text())
                 .then(text => showNames(text))
@@ -37,29 +38,32 @@
     <div class="jumbotron jumbotron-fluid mb-0">
         <div class="container">
             <h1 class="display-4">Name Generator</h1>
-            <p class="lead">Built with Recurrent Neural Networks (LSTM) </p>
+            <p class="lead">Built with Long Short-Term Memory (LSTM) Networks</p>
             <hr class="my-4">
-            <p>Select a language from the dropdown menu and press <b>Get Names</b> to generate 10 machine-generated
-                names similar to the chosen language(s)</p>
+            <p>Select a language and gender from the dropdown menu and press <b>Get Names</b> to generate 10
+                machine-generated names similar to the chosen language.</p>
             <form id="langselect">
                 <label for="lang">Language: </label>
                 <select name="languages" id="lang">
                     <option value="English">English</option>
-                    <option value="English-Var2">English Variant</option>
-                    <option value="French">French</option>
                     <option value="Greek">Greek</option>
+                    <option value="French">French</option>
+                    <option value="Italian">Italian</option>
                     <option value="Japanese">Japanese</option>
                     <option value="German">German</option>
-                    <option value="Russian">Russian</option>
-                    <option value="Spanish">Spanish</option>
-                    <option value="Chinese">Chinese</option>
                     <option value="Arabic">Arabic</option>
-                    <option value="Italian">Italian</option>
-                    <option value="Korean">Korean</option>
-                    <option value="Arabic-Chinese">Arabic-Chinese</option>
-                    <option value="German-Japanese">German-Japanese</option>
-                    <option value="Polish-Czech">Polish-Czech</option>
-                    <option value="Greek-Japanese">Greek-Japanese</option>
+                    <option value="Hebrew">Hebrew</option>
+                    <option value="Germanic">Germanic</option>
+                    <option value="East-Asian">East-Asian</option>
+                    <option value="Turkic">Anatolian (Unreliable)</option>
+                    <option value="Hispanic">Hispanic</option>
+                    <option value="Slavic">Slavic</option>
+                    <option value="Scandinavian">Scandinavian</option>
+                </select>
+                <label for="gender">Gender: </label>
+                <select name="genders" id="gender">
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
                 </select>
             </form>
             <button type="button" id="btnGetTxt" onclick="readFile()" class="btn btn-dark">Get Names</button>
@@ -67,7 +71,7 @@
     </div>
 
     <div class="container" style="margin-top: 10px;">
-        <div class="card-header" style="width: 18rem;">
+        <div class="card-header" style="width: 25rem;">
             <div class="card-body" id="names">
             </div>
         </div>
